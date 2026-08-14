@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Aura Aim Trainer Hub</title>
+<title>ZVC – Zero Velocity Core</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -15,17 +15,17 @@ body {
     overflow-x: hidden;
 }
 
-/* Smooth fade animations */
+/* Pages + transitions */
 .page {
     display: none;
-    animation: fadeIn 0.4s ease;
+    animation: slideIn 0.35s ease;
 }
 .page.active {
     display: block;
 }
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
 }
 
 /* Navigation */
@@ -41,29 +41,75 @@ nav {
     z-index: 10;
 }
 
+nav .left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 nav h1 {
     margin: 0;
     font-size: 26px;
     font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
     transition: 0.3s;
 }
 nav h1:hover {
     transform: scale(1.05);
 }
 
-nav a {
+nav .links a {
     color: white;
     text-decoration: none;
     margin-left: 20px;
     font-size: 18px;
     transition: 0.2s;
 }
-nav a:hover {
+nav .links a:hover {
     opacity: 0.7;
     transform: scale(1.1);
 }
 
-/* Cards */
+/* Right side: arrows + logo */
+nav .right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.arrow-btn {
+    background: #ffffff22;
+    border: 2px solid white;
+    padding: 6px 12px;
+    border-radius: 999px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.25s;
+}
+.arrow-btn:hover {
+    background: white;
+    color: #5a00ff;
+    transform: translateY(-1px) scale(1.08);
+}
+
+/* Logo */
+#zvcLogo {
+    width: 70px;
+    height: 70px;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 0 18px rgba(255,255,255,0.7);
+    animation: glowPulse 2.4s infinite ease-in-out;
+}
+@keyframes glowPulse {
+    0% { box-shadow: 0 0 8px rgba(255,255,255,0.4); transform: scale(1); }
+    50% { box-shadow: 0 0 22px rgba(255,255,255,0.9); transform: scale(1.05); }
+    100% { box-shadow: 0 0 8px rgba(255,255,255,0.4); transform: scale(1); }
+}
+
+/* Sections / cards */
 .section {
     padding: 40px;
 }
@@ -115,38 +161,56 @@ button:hover {
     padding: 8px 16px;
     border-radius: 8px;
 }
+
+/* Game area */
+#gameArea {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    margin-top: 10px;
+    border-radius: 12px;
+    background: rgba(0,0,0,0.25);
+    overflow: hidden;
+}
 </style>
 </head>
 
 <body>
 
 <nav>
-    <h1>Aura Aim Trainer</h1>
-    <div>
-        <a onclick="showPage('home')">Home</a>
-        <a onclick="showPage('aim')">Aim Trainer</a>
-        <a onclick="showPage('tweaks')">Tweaks</a>
-        <a onclick="showPage('about')">About</a>
+    <div class="left">
+        <h1>ZVC</h1>
+        <div class="links">
+            <a onclick="goToPage('home')">Home</a>
+            <a onclick="goToPage('aim')">Aim Trainer</a>
+            <a onclick="goToPage('tweaks')">Tweaks</a>
+            <a onclick="goToPage('about')">About</a>
+        </div>
+    </div>
+    <div class="right">
+        <button class="arrow-btn" onclick="navBack()">⬅</button>
+        <button class="arrow-btn" onclick="navForward()">➡</button>
+        <img id="zvcLogo" src="zvc.png" alt="Zero Velocity Core">
     </div>
 </nav>
 
 <!-- HOME -->
 <div id="home" class="page active section">
-    <h2>Welcome to Aura</h2>
+    <h2>Zero Velocity Core</h2>
     <div class="card">
-        <p>Your FNCS‑style aim trainer hub with animations, difficulty settings, and clean UI.</p>
+        <p>Welcome to ZVC – your FNCS‑style aim trainer hub with modern UI, animations, and difficulty modes.</p>
     </div>
 
     <div class="card">
         <h3>Aim Trainer</h3>
-        <p>Reaction test, click accuracy, tracking — now with difficulty modes.</p>
-        <button onclick="showPage('aim')">Enter Aim Trainer →</button>
+        <p>Reaction time, click accuracy, and tracking – all tuned by difficulty.</p>
+        <button onclick="goToPage('aim')">Enter Aim Trainer →</button>
     </div>
 
     <div class="card">
         <h3>Tweaks</h3>
-        <p>Sensitivity tools, FOV calculators, UI settings.</p>
-        <button onclick="showPage('tweaks')">Open Tweaks →</button>
+        <p>Sensitivity converter, FOV calculator, and more tuning tools.</p>
+        <button onclick="goToPage('tweaks')">Open Tweaks →</button>
     </div>
 </div>
 
@@ -179,7 +243,7 @@ button:hover {
         <button onclick="startTracking()">Start</button>
     </div>
 
-    <div id="gameArea" style="position:relative; width:100%; height:400px;"></div>
+    <div id="gameArea"></div>
 </div>
 
 <!-- TWEAKS -->
@@ -203,17 +267,38 @@ button:hover {
 
 <!-- ABOUT -->
 <div id="about" class="page section">
-    <h2>About Aura</h2>
+    <h2>About ZVC</h2>
     <div class="card">
-        <p>Created by Riley. Designed to be clean, animated, and FNCS‑themed.</p>
+        <p>Zero Velocity Core – built for clean, animated, FNCS‑style aim training. Designed by Riley.</p>
     </div>
 </div>
 
 <script>
-/* PAGE SWITCHING */
+/* PAGE NAVIGATION + HISTORY */
+const pages = ["home", "aim", "tweaks", "about"];
+let currentIndex = 0;
+
 function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(id).classList.add('active');
+}
+
+function goToPage(id) {
+    const idx = pages.indexOf(id);
+    if (idx !== -1) {
+        currentIndex = idx;
+        showPage(id);
+    }
+}
+
+function navBack() {
+    currentIndex = (currentIndex - 1 + pages.length) % pages.length;
+    showPage(pages[currentIndex]);
+}
+
+function navForward() {
+    currentIndex = (currentIndex + 1) % pages.length;
+    showPage(pages[currentIndex]);
 }
 
 /* DIFFICULTY SETTINGS */
@@ -226,7 +311,8 @@ let diffSpeeds = {
 
 function setDifficulty(level) {
     difficulty = level;
-    document.getElementById("diffLabel").innerText = "Current: " + level.charAt(0).toUpperCase() + level.slice(1);
+    document.getElementById("diffLabel").innerText =
+        "Current: " + level.charAt(0).toUpperCase() + level.slice(1);
 }
 
 /* REACTION TEST */
@@ -247,7 +333,8 @@ function startReactionTest() {
 
         target.onclick = () => {
             const time = Date.now() - reactionStart;
-            document.getElementById("reactionResult").innerText = "Reaction Time: " + time + "ms";
+            document.getElementById("reactionResult").innerText =
+                "Reaction Time: " + time + "ms";
             area.innerHTML = "";
         };
     }, Math.random() * 2000 + 500);
@@ -283,7 +370,8 @@ function startAccuracy() {
         accuracyActive = false;
         clearInterval(interval);
         area.innerHTML = "";
-        document.getElementById("accuracyResult").innerText = "Hits: " + accuracyHits;
+        document.getElementById("accuracyResult").innerText =
+            "Hits: " + accuracyHits;
     }, 10000);
 }
 
@@ -326,4 +414,3 @@ function calcFOV() {
 
 </body>
 </html>
-
