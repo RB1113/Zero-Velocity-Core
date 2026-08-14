@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Aura Aim Trainer Hub</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+/* ===== GLOBAL ===== */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #5a00ff, #009dff);
+    color: white;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    background: rgba(0,0,0,0.25);
+    backdrop-filter: blur(10px);
+}
+
+nav h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 18px;
+    transition: 0.2s;
+}
+
+nav a:hover {
+    opacity: 0.7;
+}
+
+.section {
+    padding: 40px;
+}
+
+.section h2 {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.card {
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+}
+
+/* ===== PAGE SWITCHING ===== */
+.page {
+    display: none;
+}
+.page.active {
+    display: block;
+}
+
+/* ===== AIM TRAINER ELEMENTS ===== */
+.target {
+    width: 50px;
+    height: 50px;
+    background: red;
+    border-radius: 50%;
+    position: absolute;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <h1>Aura Aim Trainer</h1>
+    <div>
+        <a onclick="showPage('home')">Home</a>
+        <a onclick="showPage('aim')">Aim Trainer</a>
+        <a onclick="showPage('tweaks')">Tweaks</a>
+        <a onclick="showPage('about')">About</a>
+    </div>
+</nav>
+
+<!-- ===== HOME PAGE ===== -->
+<div id="home" class="page active section">
+    <h2>Welcome</h2>
+    <div class="card">
+        <p>This is your central hub for aim training tools, modules, and tweaks.</p>
+    </div>
+
+    <div class="card">
+        <h3>Aim Trainer</h3>
+        <p>Reaction test, click accuracy, tracking.</p>
+        <button onclick="showPage('aim')">Go to Aim Trainer →</button>
+    </div>
+
+    <div class="card">
+        <h3>Tweaks</h3>
+        <p>Sensitivity tools, FOV calculators, UI settings.</p>
+        <button onclick="showPage('tweaks')">Go to Tweaks →</button>
+    </div>
+</div>
+
+<!-- ===== AIM TRAINER PAGE ===== -->
+<div id="aim" class="page section">
+    <h2>Aim Trainer</h2>
+
+    <div class="card">
+        <h3>Reaction Time Test</h3>
+        <p>Click the target as fast as possible when it appears.</p>
+        <button onclick="startReactionTest()">Start Reaction Test</button>
+        <p id="reactionResult"></p>
+    </div>
+
+    <div class="card">
+        <h3>Click Accuracy</h3>
+        <p>Hit as many targets as possible in 10 seconds.</p>
+        <button onclick="startAccuracy()">Start Accuracy Test</button>
+        <p id="accuracyResult"></p>
+    </div>
+
+    <div class="card">
+        <h3>Tracking Trainer</h3>
+        <p>Follow the moving target with your cursor.</p>
+        <button onclick="startTracking()">Start Tracking</button>
+    </div>
+
+    <div id="gameArea" style="position:relative; width:100%; height:400px;"></div>
+</div>
+
+<!-- ===== TWEAKS PAGE ===== -->
+<div id="tweaks" class="page section">
+    <h2>Tweaks</h2>
+
+    <div class="card">
+        <h3>Mouse Sensitivity Converter</h3>
+        <input id="sensInput" type="number" placeholder="Your Sens">
+        <button onclick="convertSens()">Convert</button>
+        <p id="sensOutput"></p>
+    </div>
+
+    <div class="card">
+        <h3>FOV Calculator</h3>
+        <input id="fovInput" type="number" placeholder="FOV">
+        <button onclick="calcFOV()">Calculate</button>
+        <p id="fovOutput"></p>
+    </div>
+</div>
+
+<!-- ===== ABOUT PAGE ===== -->
+<div id="about" class="page section">
+    <h2>About</h2>
+    <div class="card">
+        <p>Aura Aim Trainer Hub — created by Riley.</p>
+        <p>FNCS‑style purple UI, clean layout, GitHub‑ready.</p>
+    </div>
+</div>
+
+<script>
+/* ===== PAGE SWITCHING ===== */
+function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+/* ===== AIM TRAINER FUNCTIONS ===== */
+let reactionStart;
+
+function startReactionTest() {
+    const area = document.getElementById("gameArea");
+    area.innerHTML = "";
+
+    const target = document.createElement("div");
+    target.className = "target";
+
+    setTimeout(() => {
+        reactionStart = Date.now();
+        target.style.left = Math.random() * (area.offsetWidth - 50) + "px";
+        target.style.top = Math.random() * (area.offsetHeight - 50) + "px";
+        area.appendChild(target);
+
+        target.onclick = () => {
+            const time = Date.now() - reactionStart;
+            document.getElementById("reactionResult").innerText = "Reaction Time: " + time + "ms";
+            area.innerHTML = "";
+        };
+    }, Math.random() * 2000 + 500);
+}
+
+let accuracyHits = 0;
+let accuracyActive = false;
+
+function startAccuracy() {
+    const area = document.getElementById("gameArea");
+    area.innerHTML = "";
+    accuracyHits = 0;
+    accuracyActive = true;
+
+    const interval = setInterval(() => {
+        if (!accuracyActive) return;
+
+        const target = document.createElement("div");
+        target.className = "target";
+        target.style.left = Math.random() * (area.offsetWidth - 50) + "px";
+        target.style.top = Math.random() * (area.offsetHeight - 50) + "px";
+
+        target.onclick = () => {
+            accuracyHits++;
+            target.remove();
+        };
+
+        area.appendChild(target);
+    }, 500);
+
+    setTimeout(() => {
+        accuracyActive = false;
+        clearInterval(interval);
+        area.innerHTML = "";
+        document.getElementById("accuracyResult").innerText = "Hits: " + accuracyHits;
+    }, 10000);
+}
+
+function startTracking() {
+    const area = document.getElementById("gameArea");
+    area.innerHTML = "";
+
+    const target = document.createElement("div");
+    target.className = "target";
+    area.appendChild(target);
+
+    let x = 100, y = 100;
+
+    setInterval(() => {
+        x += (Math.random() - 0.5) * 40;
+        y += (Math.random() - 0.5) * 40;
+
+        x = Math.max(0, Math.min(area.offsetWidth - 50, x));
+        y = Math.max(0, Math.min(area.offsetHeight - 50, y));
+
+        target.style.left = x + "px";
+        target.style.top = y + "px";
+    }, 100);
+}
+
+/* ===== TWEAKS ===== */
+function convertSens() {
+    const sens = Number(document.getElementById("sensInput").value);
+    document.getElementById("sensOutput").innerText =
+        "Converted Sens (x3.18): " + (sens * 3.18).toFixed(2);
+}
+
+function calcFOV() {
+    const fov = Number(document.getElementById("fovInput").value);
+    document.getElementById("fovOutput").innerText =
+        "Horizontal FOV: " + (fov * 1.3).toFixed(2);
+}
+</script>
+
+</body>
+</html>
