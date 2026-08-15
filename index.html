@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>ZVC – Zero Velocity Core</title>
+<title>Aura Aim Trainer Hub</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -15,17 +15,17 @@ body {
     overflow-x: hidden;
 }
 
-/* Pages + transitions */
+/* Smooth fade animations */
 .page {
     display: none;
-    animation: slideIn 0.35s ease;
+    animation: fadeIn 0.4s ease;
 }
 .page.active {
     display: block;
 }
-@keyframes slideIn {
-    from { opacity: 0; transform: translateX(20px); }
-    to { opacity: 1; transform: translateX(0); }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Navigation */
@@ -41,76 +41,29 @@ nav {
     z-index: 10;
 }
 
-nav .left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
 nav h1 {
     margin: 0;
     font-size: 26px;
     font-weight: bold;
-    letter-spacing: 2px;
-    text-transform: uppercase;
     transition: 0.3s;
 }
 nav h1:hover {
     transform: scale(1.05);
 }
 
-nav .links a {
+nav a {
     color: white;
     text-decoration: none;
     margin-left: 20px;
     font-size: 18px;
     transition: 0.2s;
-    cursor: pointer;
 }
-nav .links a:hover {
+nav a:hover {
     opacity: 0.7;
     transform: scale(1.1);
 }
 
-/* Right side: arrows + logo */
-nav .right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.arrow-btn {
-    background: #ffffff22;
-    border: 2px solid white;
-    padding: 6px 12px;
-    border-radius: 999px;
-    color: white;
-    cursor: pointer;
-    font-size: 16px;
-    transition: 0.25s;
-}
-.arrow-btn:hover {
-    background: white;
-    color: #5a00ff;
-    transform: translateY(-1px) scale(1.08);
-}
-
-/* Logo */
-#zvcLogo {
-    width: 70px;
-    height: 70px;
-    border-radius: 12px;
-    object-fit: cover;
-    box-shadow: 0 0 18px rgba(255,255,255,0.7);
-    animation: glowPulse 2.4s infinite ease-in-out;
-}
-@keyframes glowPulse {
-    0% { box-shadow: 0 0 8px rgba(255,255,255,0.4); transform: scale(1); }
-    50% { box-shadow: 0 0 22px rgba(255,255,255,0.9); transform: scale(1.05); }
-    100% { box-shadow: 0 0 8px rgba(255,255,255,0.4); transform: scale(1); }
-}
-
-/* Sections / cards */
+/* Cards */
 .section {
     padding: 40px;
 }
@@ -142,63 +95,6 @@ button:hover {
     transform: scale(1.1);
 }
 
-/* ===== MODERN SOFT-SHINE DIFFICULTY BUTTONS ===== */
-.diff-btn {
-    padding: 10px 22px;
-    border-radius: 14px;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-    background: rgba(255,255,255,0.10);
-    backdrop-filter: blur(8px);
-    transition: 0.25s ease;
-    box-shadow:
-        inset 0 0 0 2px rgba(255,255,255,0.18),
-        0 4px 12px rgba(0,0,0,0.25);
-}
-
-/* EASY — Soft Green Shine */
-.diff-btn.easy {
-    border: 2px solid #00ff55;
-    box-shadow:
-        inset 0 0 10px rgba(0,255,85,0.25),
-        0 0 12px rgba(0,255,85,0.20);
-}
-.diff-btn.easy:hover {
-    transform: translateY(-2px) scale(1.05);
-    box-shadow:
-        inset 0 0 16px rgba(0,255,85,0.45),
-        0 0 20px rgba(0,255,85,0.35);
-}
-
-/* MEDIUM — Soft Yellow Shine */
-.diff-btn.medium {
-    border: 2px solid #ffe600;
-    box-shadow:
-        inset 0 0 10px rgba(255,230,0,0.25),
-        0 0 12px rgba(255,230,0,0.20);
-}
-.diff-btn.medium:hover {
-    transform: translateY(-2px) scale(1.05);
-    box-shadow:
-        inset 0 0 16px rgba(255,230,0,0.45),
-        0 0 20px rgba(255,230,0,0.35);
-}
-
-/* HARD — Soft Red Shine */
-.diff-btn.hard {
-    border: 2px solid #ff2b2b;
-    box-shadow:
-        inset 0 0 10px rgba(255,43,43,0.25),
-        0 0 12px rgba(255,43,43,0.20);
-}
-.diff-btn.hard:hover {
-    transform: translateY(-2px) scale(1.05);
-    box-shadow:
-        inset 0 0 16px rgba(255,43,43,0.45),
-        0 0 20px rgba(255,43,43,0.35);
-}
-
 /* Targets */
 .target {
     width: 50px;
@@ -213,15 +109,11 @@ button:hover {
     transform: scale(1.2);
 }
 
-/* Game area */
-#gameArea {
-    position: relative;
-    width: 100%;
-    height: 400px;
-    margin-top: 10px;
-    border-radius: 12px;
-    background: rgba(0,0,0,0.25);
-    overflow: hidden;
+/* Difficulty buttons */
+.diff-btn {
+    margin-right: 10px;
+    padding: 8px 16px;
+    border-radius: 8px;
 }
 </style>
 </head>
@@ -229,59 +121,170 @@ button:hover {
 <body>
 
 <nav>
-    <div class="left">
-        <h1>ZVC</h1>
-    </div>
-
-    <div class="links">
+    <h1>Aura Aim Trainer</h1>
+    <div>
         <a onclick="showPage('home')">Home</a>
-        <a onclick="showPage('trainer')">Trainer</a>
+        <a onclick="showPage('aim')">Aim Trainer</a>
+        <a onclick="showPage('tweaks')">Tweaks</a>
         <a onclick="showPage('about')">About</a>
-    </div>
-
-    <div class="right">
-        <button class="arrow-btn" onclick="history.back()">←</button>
-        <button class="arrow-btn" onclick="history.forward()">→</button>
     </div>
 </nav>
 
 <!-- HOME -->
 <div id="home" class="page active section">
-    <h2>Welcome to Zero Velocity Core</h2>
-    <p>Your reaction, tracking, and micro‑adjustment trainer.</p>
-</div>
-
-<!-- TRAINER -->
-<div id="trainer" class="page section">
-    <h2>Training Module</h2>
-
-    <div style="margin-bottom:20px;">
-        <button class="diff-btn easy" onclick="setDifficulty('easy')">Easy</button>
-        <button class="diff-btn medium" onclick="setDifficulty('medium')">Medium</button>
-        <button class="diff-btn hard" onclick="setDifficulty('hard')">Hard</button>
+    <h2>Welcome to Aura</h2>
+    <div class="card">
+        <p>Your FNCS‑style aim trainer hub with animations, difficulty settings, and clean UI.</p>
     </div>
 
-    <button onclick="startTracking()">Start Tracking</button>
+    <div class="card">
+        <h3>Aim Trainer</h3>
+        <p>Reaction test, click accuracy, tracking — now with difficulty modes.</p>
+        <button onclick="showPage('aim')">Enter Aim Trainer →</button>
+    </div>
 
-    <div id="gameArea"></div>
+    <div class="card">
+        <h3>Tweaks</h3>
+        <p>Sensitivity tools, FOV calculators, UI settings.</p>
+        <button onclick="showPage('tweaks')">Open Tweaks →</button>
+    </div>
+</div>
+
+<!-- AIM TRAINER -->
+<div id="aim" class="page section">
+    <h2>Aim Trainer</h2>
+
+    <div class="card">
+        <h3>Select Difficulty</h3>
+        <button class="diff-btn" onclick="setDifficulty('easy')">Easy</button>
+        <button class="diff-btn" onclick="setDifficulty('medium')">Medium</button>
+        <button class="diff-btn" onclick="setDifficulty('hard')">Hard</button>
+        <p id="diffLabel">Current: Easy</p>
+    </div>
+
+    <div class="card">
+        <h3>Reaction Time Test</h3>
+        <button onclick="startReactionTest()">Start</button>
+        <p id="reactionResult"></p>
+    </div>
+
+    <div class="card">
+        <h3>Click Accuracy</h3>
+        <button onclick="startAccuracy()">Start</button>
+        <p id="accuracyResult"></p>
+    </div>
+
+    <div class="card">
+        <h3>Tracking Trainer</h3>
+        <button onclick="startTracking()">Start</button>
+    </div>
+
+    <div id="gameArea" style="position:relative; width:100%; height:400px;"></div>
+</div>
+
+<!-- TWEAKS -->
+<div id="tweaks" class="page section">
+    <h2>Tweaks</h2>
+
+    <div class="card">
+        <h3>Mouse Sensitivity Converter</h3>
+        <input id="sensInput" type="number" placeholder="Your Sens">
+        <button onclick="convertSens()">Convert</button>
+        <p id="sensOutput"></p>
+    </div>
+
+    <div class="card">
+        <h3>FOV Calculator</h3>
+        <input id="fovInput" type="number" placeholder="FOV">
+        <button onclick="calcFOV()">Calculate</button>
+        <p id="fovOutput"></p>
+    </div>
 </div>
 
 <!-- ABOUT -->
 <div id="about" class="page section">
-    <h2>About Zero Velocity Core</h2>
-    <p>Reaction drills, micro‑tweaks, tracking modules, and more.</p>
+    <h2>About Aura</h2>
+    <div class="card">
+        <p>Created by Riley. Designed to be clean, animated, and FNCS‑themed.</p>
+    </div>
 </div>
 
 <script>
-let difficulty = "easy";
-
+/* PAGE SWITCHING */
 function showPage(id) {
-    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
 }
+
+/* DIFFICULTY SETTINGS */
+let difficulty = "easy";
+let diffSpeeds = {
+    easy: 800,
+    medium: 500,
+    hard: 250
+};
 
 function setDifficulty(level) {
     difficulty = level;
+    document.getElementById("diffLabel").innerText = "Current: " + level.charAt(0).toUpperCase() + level.slice(1);
+}
+
+/* REACTION TEST */
+let reactionStart;
+
+function startReactionTest() {
+    const area = document.getElementById("gameArea");
+    area.innerHTML = "";
+
+    const target = document.createElement("div");
+    target.className = "target";
+
+    setTimeout(() => {
+        reactionStart = Date.now();
+        target.style.left = Math.random() * (area.offsetWidth - 50) + "px";
+        target.style.top = Math.random() * (area.offsetHeight - 50) + "px";
+        area.appendChild(target);
+
+        target.onclick = () => {
+            const time = Date.now() - reactionStart;
+            document.getElementById("reactionResult").innerText = "Reaction Time: " + time + "ms";
+            area.innerHTML = "";
+        };
+    }, Math.random() * 2000 + 500);
+}
+
+/* ACCURACY TEST */
+let accuracyHits = 0;
+let accuracyActive = false;
+
+function startAccuracy() {
+    const area = document.getElementById("gameArea");
+    area.innerHTML = "";
+    accuracyHits = 0;
+    accuracyActive = true;
+
+    const interval = setInterval(() => {
+        if (!accuracyActive) return;
+
+        const target = document.createElement("div");
+        target.className = "target";
+        target.style.left = Math.random() * (area.offsetWidth - 50) + "px";
+        target.style.top = Math.random() * (area.offsetHeight - 50) + "px";
+
+        target.onclick = () => {
+            accuracyHits++;
+            target.remove();
+        };
+
+        area.appendChild(target);
+    }, diffSpeeds[difficulty]);
+
+    setTimeout(() => {
+        accuracyActive = false;
+        clearInterval(interval);
+        area.innerHTML = "";
+        document.getElementById("accuracyResult").innerText = "Hits: " + accuracyHits;
+    }, 10000);
 }
 
 /* TRACKING */
