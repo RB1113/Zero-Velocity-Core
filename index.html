@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Aura Aim Trainer Hub</title>
+<title>ZVC – Zero Velocity Core</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -15,17 +15,17 @@ body {
     overflow-x: hidden;
 }
 
-/* Smooth fade animations */
+/* Pages + transitions */
 .page {
     display: none;
-    animation: fadeIn 0.4s ease;
+    animation: slideIn 0.35s ease;
 }
 .page.active {
     display: block;
 }
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
 }
 
 /* Navigation */
@@ -41,29 +41,76 @@ nav {
     z-index: 10;
 }
 
+nav .left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 nav h1 {
     margin: 0;
     font-size: 26px;
     font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
     transition: 0.3s;
 }
 nav h1:hover {
     transform: scale(1.05);
 }
 
-nav a {
+nav .links a {
     color: white;
     text-decoration: none;
     margin-left: 20px;
     font-size: 18px;
     transition: 0.2s;
+    cursor: pointer;
 }
-nav a:hover {
+nav .links a:hover {
     opacity: 0.7;
     transform: scale(1.1);
 }
 
-/* Cards */
+/* Right side: arrows + logo */
+nav .right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.arrow-btn {
+    background: #ffffff22;
+    border: 2px solid white;
+    padding: 6px 12px;
+    border-radius: 999px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.25s;
+}
+.arrow-btn:hover {
+    background: white;
+    color: #5a00ff;
+    transform: translateY(-1px) scale(1.08);
+}
+
+/* Logo */
+#zvcLogo {
+    width: 70px;
+    height: 70px;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 0 18px rgba(255,255,255,0.7);
+    animation: glowPulse 2.4s infinite ease-in-out;
+}
+@keyframes glowPulse {
+    0% { box-shadow: 0 0 8px rgba(255,255,255,0.4); transform: scale(1); }
+    50% { box-shadow: 0 0 22px rgba(255,255,255,0.9); transform: scale(1.05); }
+    100% { box-shadow: 0 0 8px rgba(255,255,255,0.4); transform: scale(1); }
+}
+
+/* Sections / cards */
 .section {
     padding: 40px;
 }
@@ -115,38 +162,176 @@ button:hover {
     padding: 8px 16px;
     border-radius: 8px;
 }
+
+/* Game area */
+#gameArea {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    margin-top: 10px;
+    border-radius: 12px;
+    background: rgba(0,0,0,0.25);
+    overflow: hidden;
+}
+
+/* ===== ANIMATED ABOUT PAGE ===== */
+.about-hero {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    align-items: center;
+}
+
+.about-left {
+    flex: 1 1 280px;
+}
+
+.about-right {
+    flex: 1 1 260px;
+    display: grid;
+    gap: 15px;
+}
+
+.about-pill {
+    background: rgba(0,0,0,0.35);
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    animation: pillPulse 2s infinite ease-in-out;
+}
+.about-pill span {
+    font-size: 18px;
+}
+
+@keyframes pillPulse {
+    0% { transform: translateY(0); opacity: 0.9; }
+    50% { transform: translateY(-3px); opacity: 1; }
+    100% { transform: translateY(0); opacity: 0.9; }
+}
+
+.about-core {
+    background: rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+}
+.about-core::before {
+    content: "";
+    position: absolute;
+    inset: -40px;
+    background: radial-gradient(circle at 0% 0%, rgba(255,255,255,0.25), transparent 55%);
+    opacity: 0.6;
+    animation: coreGlow 6s infinite linear;
+}
+@keyframes coreGlow {
+    0% { transform: translate(0,0); }
+    50% { transform: translate(40px,20px); }
+    100% { transform: translate(0,0); }
+}
+
+.about-core h3 {
+    margin-top: 0;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.about-card {
+    background: rgba(0,0,0,0.35);
+    border-radius: 12px;
+    padding: 14px;
+    position: relative;
+    overflow: hidden;
+}
+.about-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 1px solid rgba(255,255,255,0.12);
+    opacity: 0;
+    transition: 0.3s;
+}
+.about-card:hover::after {
+    opacity: 1;
+}
+.about-card h4 {
+    margin-top: 0;
+    margin-bottom: 6px;
+}
+
+/* Animated heading */
+.about-title {
+    font-size: 32px;
+    margin-bottom: 10px;
+    position: relative;
+    display: inline-block;
+}
+.about-title::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 60%;
+    height: 3px;
+    background: linear-gradient(90deg, #ffffff, transparent);
+    animation: underlineSweep 2.5s infinite;
+}
+@keyframes underlineSweep {
+    0% { transform: translateX(-20%); opacity: 0.3; }
+    50% { transform: translateX(20%); opacity: 1; }
+    100% { transform: translateX(60%); opacity: 0; }
+}
 </style>
 </head>
 
 <body>
 
 <nav>
-    <h1>Aura Aim Trainer</h1>
-    <div>
-        <a onclick="showPage('home')">Home</a>
-        <a onclick="showPage('aim')">Aim Trainer</a>
-        <a onclick="showPage('tweaks')">Tweaks</a>
-        <a onclick="showPage('about')">About</a>
+    <div class="left">
+        <h1>ZVC</h1>
+        <div class="links">
+            <a onclick="goToPage('home')">Home</a>
+            <a onclick="goToPage('aim')">Aim Trainer</a>
+            <a onclick="goToPage('tweaks')">Tweaks</a>
+            <a onclick="goToPage('about')">About</a>
+        </div>
+    </div>
+    <div class="right">
+        <button class="arrow-btn" onclick="navBack()">⬅</button>
+        <button class="arrow-btn" onclick="navForward()">➡</button>
+        <img id="zvcLogo" src="zvc.png" alt="Zero Velocity Core">
     </div>
 </nav>
 
 <!-- HOME -->
 <div id="home" class="page active section">
-    <h2>Welcome to Aura</h2>
+    <h2>Zero Velocity Core</h2>
     <div class="card">
-        <p>Your FNCS‑style aim trainer hub with animations, difficulty settings, and clean UI.</p>
+        <p>
+            Welcome to <strong>Zero Velocity Core</strong> — a high‑performance aim‑training environment built for players who want sharper reactions, cleaner tracking, and tighter precision.  
+            Every module is designed to refine your mechanics, strengthen your consistency, and elevate your gameplay with focused drills and a smooth, modern interface.
+        </p>
     </div>
 
     <div class="card">
         <h3>Aim Trainer</h3>
-        <p>Reaction test, click accuracy, tracking — now with difficulty modes.</p>
-        <button onclick="showPage('aim')">Enter Aim Trainer →</button>
+        <p>Reaction time, click accuracy, and tracking — all tuned by difficulty and built to expose gaps in your mechanics.</p>
+        <button onclick="goToPage('aim')">Enter Aim Trainer →</button>
     </div>
 
     <div class="card">
         <h3>Tweaks</h3>
-        <p>Sensitivity tools, FOV calculators, UI settings.</p>
-        <button onclick="showPage('tweaks')">Open Tweaks →</button>
+        <p>Sensitivity conversion, FOV calculation, and tuning tools to keep your setup locked in and repeatable.</p>
+        <button onclick="goToPage('tweaks')">Open Tweaks →</button>
     </div>
 </div>
 
@@ -179,7 +364,7 @@ button:hover {
         <button onclick="startTracking()">Start</button>
     </div>
 
-    <div id="gameArea" style="position:relative; width:100%; height:400px;"></div>
+    <div id="gameArea"></div>
 </div>
 
 <!-- TWEAKS -->
@@ -201,19 +386,87 @@ button:hover {
     </div>
 </div>
 
-<!-- ABOUT -->
+<!-- ABOUT (Animated) -->
 <div id="about" class="page section">
-    <h2>About Aura</h2>
+    <div class="about-hero">
+        <div class="about-left">
+            <h2 class="about-title">Zero Velocity Core</h2>
+            <div class="about-pill">
+                <span>●</span> Precision‑driven aim training
+            </div>
+            <br><br>
+            <div class="about-core">
+                <h3>The Core Philosophy</h3>
+                <p>
+                    <strong>Zero Velocity Core (ZVC)</strong> is a precision‑built aim‑training system engineered for players who want every shot to matter.  
+                    It blends micro‑adjustment drills, reaction challenges, tracking modules, and movement refinement into one unified core — designed to strip away wasted motion and sharpen pure mechanical consistency.
+                </p>
+                <p>
+                    ZVC pushes your gameplay into a state of controlled stability:<br>
+                    <strong>zero hesitation, zero drift, zero velocity.</strong><br>
+                    Just clean, competitive aim.
+                </p>
+            </div>
+        </div>
+
+        <div class="about-right">
+            <div class="about-grid">
+                <div class="about-card">
+                    <h4>Micro‑Tweaks</h4>
+                    <p>Dial in sensitivity, FOV, and feel so your setup stops fighting your mechanics.</p>
+                </div>
+                <div class="about-card">
+                    <h4>Reaction Drills</h4>
+                    <p>Short, sharp tests that expose delay in your click timing and visual processing.</p>
+                </div>
+                <div class="about-card">
+                    <h4>Tracking Modules</h4>
+                    <p>Movement‑based targets that force smooth crosshair control instead of jittery corrections.</p>
+                </div>
+                <div class="about-card">
+                    <h4>Movement Refinement</h4>
+                    <p>Tools and patterns that keep your positioning deliberate, not random or rushed.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="card">
-        <p>Created by Riley. Designed to be clean, animated, and FNCS‑themed.</p>
+        <h3>Why ZVC?</h3>
+        <p>
+            ZVC isn’t about flashy effects or gimmicks — it’s about building a repeatable, stable foundation for your aim.  
+            Every drill exists to reveal something: inconsistency, over‑correction, hesitation, or wasted motion.  
+            The goal is simple: turn your mechanics into something you can trust under pressure.
+        </p>
     </div>
 </div>
 
 <script>
-/* PAGE SWITCHING */
+/* PAGE NAVIGATION + HISTORY */
+const pages = ["home", "aim", "tweaks", "about"];
+let currentIndex = 0;
+
 function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(id).classList.add('active');
+}
+
+function goToPage(id) {
+    const idx = pages.indexOf(id);
+    if (idx !== -1) {
+        currentIndex = idx;
+        showPage(id);
+    }
+}
+
+function navBack() {
+    currentIndex = (currentIndex - 1 + pages.length) % pages.length;
+    showPage(pages[currentIndex]);
+}
+
+function navForward() {
+    currentIndex = (currentIndex + 1) % pages.length;
+    showPage(pages[currentIndex]);
 }
 
 /* DIFFICULTY SETTINGS */
@@ -226,7 +479,8 @@ let diffSpeeds = {
 
 function setDifficulty(level) {
     difficulty = level;
-    document.getElementById("diffLabel").innerText = "Current: " + level.charAt(0).toUpperCase() + level.slice(1);
+    document.getElementById("diffLabel").innerText =
+        "Current: " + level.charAt(0).toUpperCase() + level.slice(1);
 }
 
 /* REACTION TEST */
@@ -247,7 +501,8 @@ function startReactionTest() {
 
         target.onclick = () => {
             const time = Date.now() - reactionStart;
-            document.getElementById("reactionResult").innerText = "Reaction Time: " + time + "ms";
+            document.getElementById("reactionResult").innerText =
+                "Reaction Time: " + time + "ms";
             area.innerHTML = "";
         };
     }, Math.random() * 2000 + 500);
@@ -283,7 +538,8 @@ function startAccuracy() {
         accuracyActive = false;
         clearInterval(interval);
         area.innerHTML = "";
-        document.getElementById("accuracyResult").innerText = "Hits: " + accuracyHits;
+        document.getElementById("accuracyResult").innerText =
+            "Hits: " + accuracyHits;
     }, 10000);
 }
 
